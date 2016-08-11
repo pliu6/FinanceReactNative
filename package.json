@@ -28,10 +28,9 @@
   },
   "homepage": "https://github.com/7kfpun/FinanceReactNative#readme",
   "dependencies": {
-    "alt": "^0.18.4",
     "moment": "^2.13.0",
-    "react": "^15.2.1",
-    "react-native": "^0.31.0",
+    "react": "15.2.1",
+    "react-native": "0.31.0",
     "react-native-navbar": "^1.5.0",
     "react-native-router-flux": "^3.26.24",
     "react-native-simple-store": "^1.0.1",

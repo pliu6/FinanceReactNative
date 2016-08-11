@@ -6,9 +6,6 @@ import {
   StyleSheet,
 } from 'react-native';
 
-// Flux
-import StockActions from '../../../actions/stock-action';
-import StockStore from '../../../stores/stock-store';
 
 const ROTATE_PROPERTIES = {
   Change: 'MarketCapitalization',
@@ -20,15 +17,14 @@ export default class StockCell extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = StockStore.getState();
   }
 
   componentDidMount() {
-    StockStore.listen((state) => this.onStockStoreChange(state));
+
   }
 
   componentWillUnmount() {
-    StockStore.unlisten((state) => this.onStockStoreChange(state));
+
   }
 
   onStockStoreChange(state) {
@@ -40,7 +36,6 @@ export default class StockCell extends React.Component {
 
   changeSelectedStock(stock) {
     console.log('Selected Stock:', stock);
-    StockActions.selectStock(stock);
   }
 
   render() {
@@ -75,7 +70,7 @@ export default class StockCell extends React.Component {
                   default:                     return '#53D769';
                 }
               })()}
-              onPress={() => StockActions.selectProperty(ROTATE_PROPERTIES[this.state.selectedProperty])}>
+              >
             <View>
               <Text style={styles.changeText}>
                 {(() => {

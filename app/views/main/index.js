@@ -10,9 +10,6 @@ import {
   RefreshControl,
 } from 'react-native';
 
-// Flux
-import StockActions from '../../actions/stock-action';
-import StockStore from '../../stores/stock-store';
 
 // 3rd party libraries
 import { Actions } from 'react-native-router-flux';
@@ -34,17 +31,13 @@ export default class Main extends React.Component {
       loaded: false,
       refreshing: false,
       key: Math.random(),
-    }, StockStore.getState());
+    }, null);
   }
 
   componentDidMount() {
-    StockStore.listen((state) => this.onStockStoreChange(state));
-
-    StockActions.updateStocks();
   }
 
   componentWillUnmount() {
-    StockStore.unlisten((state) => this.onStockStoreChange(state));
   }
 
   onStockStoreChange(state) {
@@ -59,7 +52,6 @@ export default class Main extends React.Component {
 
   _onRefresh() {
     this.setState({refreshing: true});
-    StockActions.updateStocks();
     this.setState({refreshing: false});
   }
 

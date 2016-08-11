@@ -8,10 +8,6 @@ import {
   View,
 } from 'react-native';
 
-// Flux
-import StockActions from '../../actions/stock-action';
-import StockStore from '../../stores/stock-store';
-
 // 3rd party libraries
 import { Actions } from 'react-native-router-flux';
 import NavigationBar from 'react-native-navbar';
@@ -27,17 +23,13 @@ export default class Main extends React.Component {
     this.state = Object.assign({
       dataSource: new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2}),
       key: Math.random(),
-    }, StockStore.getState());
+    }, null);
   }
 
   componentDidMount() {
-    StockStore.listen((state) => this.onStockStoreChange(state));
-
-    StockActions.updateStocks();
   }
 
   componentWillUnmount() {
-    StockStore.unlisten((state) => this.onStockStoreChange(state));
   }
 
   onStockStoreChange(state) {

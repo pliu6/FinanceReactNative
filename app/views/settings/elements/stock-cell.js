@@ -5,8 +5,6 @@ import {
   View,
 } from 'react-native';
 
-// Flux
-import StockActions from '../../../actions/stock-action';
 
 // 3rd party libraries
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -14,7 +12,6 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 export default class StockCell extends React.Component {
   _onPressDelete(symbol) {
     console.log('_onPressDelete', symbol);
-    StockActions.deleteStock(symbol);
   }
 
   render() {

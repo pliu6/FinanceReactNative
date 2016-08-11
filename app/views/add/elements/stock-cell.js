@@ -6,8 +6,6 @@ import {
   View,
 } from 'react-native';
 
-// Flux
-import StockActions from '../../../actions/stock-action';
 
 // 3rd party libraries
 import { Actions } from 'react-native-router-flux';
@@ -15,7 +13,6 @@ import { Actions } from 'react-native-router-flux';
 export default class StockCell extends React.Component {
   _onPressAdd(symbol) {
     console.log('_onPressAdd', symbol);
-    StockActions.addStock(symbol);
     Actions.pop();
   }
 
