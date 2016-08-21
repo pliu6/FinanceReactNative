@@ -8,6 +8,13 @@ import {
   // Reducer,
 } from 'react-native-router-flux';
 
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+
+import stockApp from './app/reducers';
+
+let store = createStore(stockApp);
+
 // Views
 import MainView from './app/views/main';
 import SettingsView from './app/views/settings';
@@ -29,6 +36,10 @@ const scenes = Actions.create(
 
 export default class Periods extends React.Component {
   render() {
-    return <Router scenes={scenes} />;
+    return (
+      <Provider store={store}>
+        <Router scenes={scenes} />
+      </Provider>
+    );
   }
 }

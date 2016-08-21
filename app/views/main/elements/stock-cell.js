@@ -17,6 +17,9 @@ export default class StockCell extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      selectedStock : {symbol: 'AAPL', share: 100},
+    };
   }
 
   componentDidMount() {

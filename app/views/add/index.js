@@ -19,7 +19,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 // Utils
 import finance from '../../utils/finance';
 
-export default class Settings extends React.Component {
+export default class Main extends React.Component {
   constructor(props) {
     super(props);
 

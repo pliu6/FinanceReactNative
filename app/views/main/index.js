@@ -10,7 +10,6 @@ import {
   RefreshControl,
 } from 'react-native';
 
-
 // 3rd party libraries
 import { Actions } from 'react-native-router-flux';
 import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager';
@@ -18,7 +17,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 // View Elements
 import StockCell from './elements/stock-cell';
-import ChartPage from './elements/chart-page';
+import ChartPage from './ChartPage';
 import DetailsPage from './elements/details-page';
 import NewsPage from './elements/news-page';
 
@@ -30,24 +29,7 @@ export default class Main extends React.Component {
       dataSource: new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2}),
       loaded: false,
       refreshing: false,
-      key: Math.random(),
     }, null);
-  }
-
-  componentDidMount() {
-  }
-
-  componentWillUnmount() {
-  }
-
-  onStockStoreChange(state) {
-    this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(state.watchlist),
-      watchlistResult: state.watchlistResult,
-      selectedProperty: state.selectedProperty,
-      selectedStock: state.selectedStock,
-      key: Math.random(),
-    });
   }
 
   _onRefresh() {
@@ -66,33 +48,29 @@ export default class Main extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        {Platform.OS === 'ios' && <View style={styles.statusBar} />}
+        { Platform.OS === 'ios' && <View style={styles.statusBar}/> }
         <View style={styles.stocksBlock}>
           <ListView
-            key={this.state.key}
             refreshControl={
               <RefreshControl
                 refreshing={this.state.refreshing}
-                onRefresh={this._onRefresh.bind(this)}
-              />
+                onRefresh={this._onRefresh.bind(this)}/>
             }
             dataSource={this.state.dataSource}
-            renderRow={(stock) => <StockCell stock={stock} watchlistResult={this.state.watchlistResult} />}
-          />
+            renderRow={(stock) => <StockCell stock={stock} watchlistResult={this.state.watchlistResult} />}/>
         </View>
         <View style={styles.detailedBlock}>
           <IndicatorViewPager
             style={{flex: 1}}
-            indicator={this._renderDotIndicator()}
-          >
+            indicator={this._renderDotIndicator()}>
             <View>
               <DetailsPage stock={this.state.selectedStock} watchlistResult={this.state.watchlistResult} />
             </View>
             <View>
-              <ChartPage stock={this.state.selectedStock} />
+              <ChartPage/>
             </View>
             <View>
-              <NewsPage key={this.state.key} stock={this.state.selectedStock} />
+              <NewsPage stock={this.state.selectedStock} />
             </View>
           </IndicatorViewPager>
         </View>
