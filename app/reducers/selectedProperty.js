@@ -1,6 +1,6 @@
 'use strict'
 
-const selectedProperty = (state = null, action) => {
+const selectedProperty = (state = 'ChangeinPercent', action) => {
   switch (action.type) {
     case 'SELECT_PROPERTY':
       return action.property;

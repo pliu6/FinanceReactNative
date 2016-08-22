@@ -22,8 +22,8 @@ const _ChartPage = ({selectedStock, selectedTimespan, onTimespanClick}) => (
     <View style={styles.chart}>
       <Image
         style={styles.image}
-        source={{uri:'http://chart.finance.yahoo.com/z?s=' + {selectedStock}.selectedStock.toLowerCase()
-                     + '&t=' + {selectedTimespan}.selectedTimespan.toLowerCase()
+        source={{uri:'http://chart.finance.yahoo.com/z?s=' + selectedStock.toLowerCase()
+                     + '&t=' + selectedTimespan.toLowerCase()
                      + '&haha=' + Math.random()}}/>
     </View>
   </View>

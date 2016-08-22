@@ -8,7 +8,7 @@ const watchList = (list = [{symbol: 'FB'}], action) => {
       }];
 
     case 'REMOVE_STOCK':
-      var index = list.indexOf(action.symbol);
+      var index = list.indexOf({symbol: action.symbol});
       return [
         ...list.slice(0, index),
         ...list.slice(index+1)

@@ -16,7 +16,7 @@ import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 // View Elements
-import StockCell from './elements/stock-cell';
+import StockPage from './StockPage';
 import ChartPage from './ChartPage';
 import DetailsPage from './elements/details-page';
 import NewsPage from './elements/news-page';
@@ -49,16 +49,7 @@ export default class Main extends React.Component {
     return (
       <View style={styles.container}>
         { Platform.OS === 'ios' && <View style={styles.statusBar}/> }
-        <View style={styles.stocksBlock}>
-          <ListView
-            refreshControl={
-              <RefreshControl
-                refreshing={this.state.refreshing}
-                onRefresh={this._onRefresh.bind(this)}/>
-            }
-            dataSource={this.state.dataSource}
-            renderRow={(stock) => <StockCell stock={stock} watchlistResult={this.state.watchlistResult} />}/>
-        </View>
+        <StockPage/>
         <View style={styles.detailedBlock}>
           <IndicatorViewPager
             style={{flex: 1}}
