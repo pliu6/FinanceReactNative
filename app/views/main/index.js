@@ -13,7 +13,7 @@ import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager';
 import StockPage from './StockPage';
 import ChartPage from './ChartPage';
 import FooterPage from './FooterPage';
-import DetailsPage from './elements/details-page';
+import DetailsPage from './DetailsPage';
 import NewsPage from './elements/news-page';
 
 export default class Main extends React.Component {

@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
 let dataSource = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
 
 const mapStateToProps = (state) => {
-  console.log(state);
+  //console.log(state);
   return {
     dataSource: dataSource.cloneWithRows(state.watchList),
     selectedStock: state.selectedStock,
