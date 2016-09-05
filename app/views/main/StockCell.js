@@ -22,8 +22,8 @@ const StockCell = ({
   <TouchableHighlight
     style={[selected ? styles.selected : null]}
     onPress={ () => onSelectStock(stockSymbol) }
-    underlayColor="#202020">
-    <View style={[styles.container]}>
+    underlayColor="#808080">
+    <View style={[styles.container, selected ? styles.selected : null]}>
       <View style={styles.symbol}>
         <Text style={styles.symbolText}>
           {stockSymbol}
@@ -89,11 +89,11 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: 'space-between',
     alignItems: 'center',
-    borderBottomColor: '#CCCCCC',
+    borderBottomColor: '#808080',
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   selected: {
-    backgroundColor: '#202020',
+    backgroundColor: '#808080',
   },
   symbol: {
     flex: 3,

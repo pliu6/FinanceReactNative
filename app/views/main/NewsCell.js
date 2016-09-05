@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import {
   Linking,
   StyleSheet,
@@ -12,7 +12,7 @@ import moment from 'moment';
 const NewsCell = ({title, link, publishedDate}) => (
   <TouchableHighlight
     onPress={() => Linking.openURL(
-      {link}
+      link
     ).catch(err => console.error('An error occurred', err))}
     underlayColor="#202020">
     <View style={styles.container}>
@@ -20,17 +20,17 @@ const NewsCell = ({title, link, publishedDate}) => (
         {title}
       </Text>
       <Text style={styles.timeText}>
-        {moment(new Date({publishedDate}).format('D/M/YYYY')) + ' at '
-          + moment(new Date({publishedDate}).format('LT'))}
+        {moment(new Date(publishedDate)).format('D/M/YYYY') + ' at '
+          + moment(new Date(publishedDate)).format('LT')}
       </Text>
     </View>
   </TouchableHighlight>
 );
 
 NewsCell.propTypes = {
-  //title: PropTypes.string.isRequired,
-  //link: PropTypes.string.isRequired,
-  //publishedDate: PropTypes.object.isRequired
+  title: PropTypes.string.isRequired,
+  link: PropTypes.string.isRequired,
+  publishedDate: PropTypes.string.isRequired
 };
 
 const styles = StyleSheet.create({

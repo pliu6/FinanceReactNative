@@ -1,6 +1,6 @@
 'use strict'
 
-import { getStock, getNews } from '../utils/finance';
+import { getStock, rss } from '../utils/finance';
 
 export const addStock = (symbol) => {
   return {
@@ -110,7 +110,7 @@ export const fetchQuotesIfNeeded = (stockSymbols) => {
 const fetchNews = (stockSymbol) => {
   return dispatch => {
     dispatch(requestNews(stockSymbol));
-    return getNews(stockSymbol)
+    return rss(stockSymbol)
       .then(response => dispatch(receiveNews(stockSymbol, response)));
   };
 };

@@ -28,7 +28,7 @@ let store = createStore(stockApp,
     },
     selectedStock: 'FB',
     selectedProperty: 'ChangeinPercent',
-    selectedTimespan: '1d'
+    selectedTimespan: '1D'
   },
   applyMiddleware(
     thunkMiddleware,

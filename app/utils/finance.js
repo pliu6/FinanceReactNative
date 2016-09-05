@@ -120,14 +120,22 @@ exports.properties = [
 ];
 
 exports.getNews = function(symbol: string) : Object {
-  var url = 'http://feeds.finance.yahoo.com/rss/2.0/headline?s=' + symbol + '&region=US&lang=en-US';
-  console.log(url);
+  var url = 'https://feeds.finance.yahoo.com/rss/2.0/headline?s=' + symbol + '&region=US&lang=en-US';
+  //console.log(url);
   return fetch(url)
     .then(function(response) {
       return response.text();
     }).then(function(body) {
       console.log(body);
     });
+};
+
+exports.rss = function(symbol: string) {
+  const GOOGLE_FEED_API_URL = 'https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=-1&q=';
+  var url = 'http://feeds.finance.yahoo.com/rss/2.0/headline?s=' + symbol + '&region=US&lang=en-US';
+  url = GOOGLE_FEED_API_URL + encodeURIComponent(url);
+
+  return fetch(url).then((res) => res.json()).then((json) => json.responseData.feed.entries);
 };
 
 exports.symbolSuggest = function(query: string) : Object {

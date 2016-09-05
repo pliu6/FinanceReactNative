@@ -19,33 +19,38 @@ class StockPage extends React.Component {
     this.state = {
       dataSource: new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2})
     };
-    this.state.dataSource = this.state.dataSource.cloneWithRows(this.props.watchList);
-    this.state.key = Math.random();
+    this.state.dataSource = this.state.dataSource.cloneWithRows(this.props.stockList);
 
     this.onRefresh = this.onRefresh.bind(this);
   }
 
   componentDidMount() {
-    const { dispatch, watchList } = this.props;
-    dispatch(fetchQuotesIfNeeded(watchList.map((item)=>item.symbol)));
-    this.state.key = Math.random();
+    const { dispatch, stockList } = this.props;
+    dispatch(fetchQuotesIfNeeded(stockList.map((item)=>item.symbol)));
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.watchList !== this.props.watchList) {
+    if (nextProps.stockList !== this.props.stockList) {
       this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(nextProps.watchList)
+        dataSource: this.state.dataSource.cloneWithRows(nextProps.stockList)
       });
-      const { dispatch } = this.props;
-      dispatch(fetchQuotesIfNeeded(nextProps.watchList.map((item)=>item.symbol)));
-      this.state.key = Math.random();
+
+      var newSymbols = nextProps.stockList.map((stock) => stock.symbol);
+      var oldSymbols = this.props.stockList.map((stock) => stock.symbol);
+      newSymbols.sort();
+      oldSymbols.sort();
+      if (newSymbols.length !== oldSymbols.length ||
+          !newSymbols.every((element, index) =>
+            (element === oldSymbols[index]))) {
+        const { dispatch } = this.props;
+        dispatch(fetchQuotesIfNeeded(newSymbols));
+      }
     }
   }
 
   onRefresh() {
-    const { dispatch, watchList} = this.props;
-    dispatch(fetchQuotesIfNeeded(watchList.map((item)=>item.symbol)));
-    this.state.key = Math.random();
+    const { dispatch, stockList} = this.props;
+    dispatch(fetchQuotesIfNeeded(stockList.map((item)=>item.symbol)));
   }
 
   render() {
@@ -53,7 +58,6 @@ class StockPage extends React.Component {
     return (
       <View style={styles.stocksBlock}>
         <ListView
-          key={this.state.key}
           refreshControl={
             <RefreshControl
               onRefresh={this.onRefresh}
@@ -63,10 +67,10 @@ class StockPage extends React.Component {
           renderRow={ (stock) =>
             <StockCell
               stockSymbol={stock.symbol}
-              lastTradePrice={quotes && quotes[stock.symbol] && quotes[stock.symbol].LastTradePriceOnly || '--'}
-              change={quotes && quotes[stock.symbol] && quotes[stock.symbol].Change || '--'}
-              changeInPercent={quotes && quotes[stock.symbol] && quotes[stock.symbol].ChangeinPercent || '--'}
-              marketCapitalization={quotes && quotes[stock.symbol] && quotes[stock.symbol].MarketCapitalization || '--'}
+              lastTradePrice={stock.lastTradePrice}
+              change={stock.change}
+              changeInPercent={stock.changeInPercent}
+              marketCapitalization={stock.marketCapitalization}
               selectedProperty={selectedProperty}
               selected={selectedStock === stock.symbol}
               onSelectStock={onSelectStock}
@@ -77,7 +81,7 @@ class StockPage extends React.Component {
 }
 
 StockPage.propTypes = {
-  watchList: PropTypes.arrayOf(PropTypes.object),
+  stockList: PropTypes.arrayOf(PropTypes.object),
   selectedStock: PropTypes.string,
   selectedProperty: PropTypes.string,
   isFetching: PropTypes.bool,
@@ -95,12 +99,23 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
+  let quotes = state.stockQuotes.quotes;
+  let stockList = state.watchList.map((stock) => {
+    let symbol = stock.symbol;
+    return {
+      symbol: symbol,
+      lastTradePrice: quotes && quotes[symbol] && quotes[symbol].LastTradePriceOnly || '--',
+      change: quotes && quotes[symbol] && quotes[symbol].Change || '--',
+      changeInPercent: quotes && quotes[symbol] && quotes[symbol].ChangeinPercent || '--',
+      marketCapitalization: quotes && quotes[symbol] && quotes[symbol].MarketCapitalization || '--'
+    }
+  });
+
   return {
-    watchList: state.watchList,
+    stockList: stockList,
     isFetching: state.stockQuotes.isFetching,
     selectedStock: state.selectedStock,
-    selectedProperty: state.selectedProperty,
-    quotes: state.stockQuotes.quotes
+    selectedProperty: state.selectedProperty
   };
 };
 

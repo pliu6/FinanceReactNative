@@ -19,15 +19,21 @@ class _NewsPage extends React.Component {
     };
   }
 
-  componentDidMount() {
-    fetchNewsIfNeeded(this.props.selectedStock);
+  componentWillMount() {
+    const { dispatch } = this.props;
+    dispatch(fetchNewsIfNeeded(this.props.selectedStock));
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.watchList) {
+    if (nextProps.news && nextProps.news !== this.props.news ) {
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(nextProps.news)
       });
+    }
+
+    if (nextProps.selectedStock !== this.props.selectedStock) {
+      const { dispatch } = this.props;
+      dispatch(fetchNewsIfNeeded(this.props.selectedStock));
     }
   }
 
@@ -63,6 +69,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
+    selectedStock: state.selectedStock,
     news: state.stockNews.news && state.stockNews.news[state.selectedStock]
   };
 };
