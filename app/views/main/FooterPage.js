@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   return {
     selectedStock: state.selectedStock,
-    onSettingButtonPressed: ()=>Actions.settings
+    onSettingButtonPressed: Actions.settings
   };
 };
 

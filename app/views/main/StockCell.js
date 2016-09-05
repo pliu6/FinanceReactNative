@@ -53,9 +53,9 @@ const StockCell = ({
         <View>
           <Text style={styles.changeText}>
             {(() => {
-              switch ({selectedProperty}) {
+              switch (selectedProperty) {
                 case 'Change':               return change;
-                case 'ChangeinPercent':      return changeinPercent;
+                case 'ChangeinPercent':      return changeInPercent;
                 case 'MarketCapitalization': return marketCapitalization;
                 default:                     return change;
               }
