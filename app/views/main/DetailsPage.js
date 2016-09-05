@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   //console.log(state);
-  let quotes = state.stockQuotes[state.selectStock];
+  let quotes = state.stockQuotes.quotes && state.stockQuotes.quotes[state.selectedStock];
 
   return {
     stockName: quotes && quotes.Name || '--',
@@ -216,7 +216,7 @@ const mapStateToProps = (state) => {
     volume: quotes && quotes.Volume || '--',
     averageDailyVolume: quotes && quotes.AverageDailyVolume || '--',
     peRatio: quotes && quotes.PERatio || '--',
-    dividendYield: quotes && quotes.DividendYield + '%' || '--'
+    dividendYield: quotes && quotes.DividendYield && quotes.DividendYield + '%' || '--'
   };
 };
 

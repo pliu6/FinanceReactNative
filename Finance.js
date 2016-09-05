@@ -1,19 +1,39 @@
 import React from 'react';
 
-// 3rd party libraries
 import {
   Actions,
   Router,
   Scene,
-  // Reducer,
 } from 'react-native-router-flux';
 
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import createLogger from 'redux-logger';
 import { Provider } from 'react-redux';
 
 import stockApp from './app/reducers';
 
-let store = createStore(stockApp);
+const loggerMiddleware = createLogger();
+
+let store = createStore(stockApp,
+  {
+    watchList: [{symbol: 'FB'}, {symbol: 'AAPL'}],
+    stockQuotes: {
+      isFetching: false,
+      quotes: null
+    },
+    stockNews: {
+      isFetching: false,
+      news: null
+    },
+    selectedStock: 'FB',
+    selectedProperty: 'ChangeinPercent',
+    selectedTimespan: '1d'
+  },
+  applyMiddleware(
+    thunkMiddleware,
+    loggerMiddleware
+  ));
 
 // Views
 import MainView from './app/views/main';

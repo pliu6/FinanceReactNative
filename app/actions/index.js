@@ -1,5 +1,7 @@
 'use strict'
 
+import { getStock, getNews } from '../utils/finance';
+
 export const addStock = (symbol) => {
   return {
     type: 'ADD_STOCK',
@@ -14,11 +16,12 @@ export const removeStock = (symbol) => {
   };
 };
 
-export const updateQuote = (symbol, quote) => {
+export const updateQuote = (symbol, quote, updatedAt) => {
   return {
     type: 'UPDATE_QUOTE',
     symbol: symbol,
-    quote: quote
+    quote: quote,
+    updatedAt: updatedAt
   };
 };
 
@@ -40,5 +43,86 @@ export const selectTimespan = (timespan) => {
   return {
     type: 'SELECT_TIMESPAN',
     timespan: timespan
+  };
+};
+
+const requestQuotes = (stockSymbols) => {
+  return {
+    type: 'REQUEST_QUOTES',
+    symbols: stockSymbols
+  };
+};
+
+const receiveQuotes = (quotes) => {
+  return {
+    type: 'RECEIVED_QUOTES',
+    quotes: quotes
+  };
+};
+
+const requestNews = (stockSymbol) => {
+  return {
+    type: 'REQUEST_NEWS',
+    symbol: stockSymbol
+  };
+};
+
+const receiveNews = (stockSymbol, response) => {
+  return {
+    type: 'RECEIVED_NEWS',
+    symbol: stockSymbol,
+    news: response
+  }
+};
+
+const fetchQuotes = (stockSymbols) => {
+  return dispatch => {
+    dispatch(requestQuotes(stockSymbols));
+    return getStock({stock: stockSymbols}, 'quotes')
+      .then(
+        response => response.json(),
+        (err) => {
+          console.log(err);
+        }
+      )
+      .then(json => {
+        var quotes = json.query.results.quote;
+        quotes = Array.isArray(quotes) ? quotes : [quotes];
+        //console.log(quotes);
+        dispatch(receiveQuotes(quotes));
+      });
+  };
+};
+
+const shouldFetchQuotes = (state) => {
+  //console.log(!state.stockQuotes.isFetching);
+  return !state.stockQuotes.isFetching;
+};
+
+export const fetchQuotesIfNeeded = (stockSymbols) => {
+  return (dispatch, getState) => {
+    if (shouldFetchQuotes(getState())) {
+      return dispatch(fetchQuotes(stockSymbols));
+    }
+  };
+};
+
+const fetchNews = (stockSymbol) => {
+  return dispatch => {
+    dispatch(requestNews(stockSymbol));
+    return getNews(stockSymbol)
+      .then(response => dispatch(receiveNews(stockSymbol, response)));
+  };
+};
+
+const shouldFetchNews = (state) => {
+  return !state.stockNews.isFetching;
+};
+
+export const fetchNewsIfNeeded = (stockSymbol) => {
+  return (dispatch, getState) => {
+    if (shouldFetchNews(getState())) {
+      return dispatch(fetchNews(stockSymbol));
+    }
   };
 };

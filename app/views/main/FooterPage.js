@@ -64,6 +64,11 @@ const styles = StyleSheet.create({
   footerMiddle: {
     flex: 1,
   },
+  marketTimeText: {
+    fontSize: 12,
+    color: '#A6A6A6',
+    textAlign: 'center',
+  },
   settings: {
     flex: 1,
     alignItems: 'flex-end',

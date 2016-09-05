@@ -1,7 +1,7 @@
 /* @flow */
 exports.getStock = function(opts: Object, type: string) : Object {
   var defs = {
-    baseURL: 'http://query.yahooapis.com/v1/public/yql?q=',
+    baseURL: 'https://query.yahooapis.com/v1/public/yql?q=',
     query: {
       quotes: 'select * from yahoo.finance.quotes where symbol in ("{stock}")',
       historicaldata: 'select * from yahoo.finance.historicaldata where symbol = "{stock}" and startDate = "{startDate}" and endDate = "{endDate}"',
@@ -23,15 +23,14 @@ exports.getStock = function(opts: Object, type: string) : Object {
     opts.stock = opts.stock.join("', '");
   }
 
-  console.log(opts.stock);
-
+  //console.log(opts.stock);
   var query = defs.query[type]
     .replace('{stock}', opts.stock)
     .replace('{startDate}', opts.startDate)
     .replace('{endDate}', opts.endDate);
 
-    var url = defs.baseURL + query + (defs.suffixURL[type] || '');
-  console.log(url);
+  var url = defs.baseURL + query + (defs.suffixURL[type] || '');
+  //console.log(url);
   return fetch(url);
 };
 
