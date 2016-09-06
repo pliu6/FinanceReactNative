@@ -1,20 +1,17 @@
 import React from 'react';
 import {
   ListView,
-  Platform,
   StyleSheet,
   Text,
   TouchableHighlight,
   View,
 } from 'react-native';
 
-// 3rd party libraries
 import { Actions } from 'react-native-router-flux';
-import NavigationBar from 'react-native-navbar';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-// View Elements
-import StockCell from './elements/stock-cell';
+import Toolbar from './Toolbar';
+import StockList from './StockList';
 
 export default class Main extends React.Component {
   constructor(props) {
@@ -24,12 +21,6 @@ export default class Main extends React.Component {
       dataSource: new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2}),
       key: Math.random(),
     }, null);
-  }
-
-  componentDidMount() {
-  }
-
-  componentWillUnmount() {
   }
 
   onStockStoreChange(state) {
@@ -49,48 +40,11 @@ export default class Main extends React.Component {
     }
   }
 
-  renderToolbar() {
-    if (Platform.OS === 'ios') {
-      return (
-        <NavigationBar
-          statusBar={{tintColor: '#202020', style: 'light-content'}}
-          style={styles.navigatorBarIOS}
-          title={{title: this.props.title, tintColor: 'white'}}
-          leftButton={<Icon style={styles.navigatorLeftButton} name="add" size={26} color="#3CABDA" onPress={Actions.add} />}
-          rightButton={{
-            title: 'Done',
-            tintColor: '#3CABDA',
-            handler: Actions.pop,
-          }}
-        />
-      );
-    } else if (Platform.OS === 'android') {
-      return (
-        <Icon.ToolbarAndroid
-          style={styles.toolbar}
-          title={this.props.title}
-          titleColor="white"
-          actions={[
-            {title: 'Add', iconName: 'add', iconSize: 26, show: 'always'},
-            {title: 'Done', iconName: 'check', iconSize: 26, show: 'always'},
-          ]}
-          onActionSelected={(position) => this.onActionSelected(position)}
-        />
-      );
-    }
-  }
-
   render() {
     return (
       <View style={styles.container}>
-        {this.renderToolbar()}
-        <View style={styles.topBlock}>
-          <ListView
-            key={this.state.key}
-            dataSource={this.state.dataSource}
-            renderRow={(stock) => <StockCell stock={stock} watchlistResult={this.state.watchlistResult}/>}
-          />
-        </View>
+        <Toolbar title={this.props.title} />
+        <StockList />
         <View style={styles.bottomBlock}>
           <TouchableHighlight style={[styles.buttonLeft, this.state.selectedProperty === 'ChangeinPercent' ? styles.buttonSelected : null]}
               underlayColor="#66CCFF"
@@ -123,28 +77,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'black',
-  },
-  navigatorBarIOS: {
-    backgroundColor: '#202020',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#424242',
-  },
-  navigatorLeftButton: {
-    paddingTop: 10,
-    paddingLeft: 10,
-    paddingRight: 50,
-  },
-  navigatorRightButton: {
-    paddingTop: 10,
-    paddingLeft: 50,
-    paddingRight: 10,
-  },
-  toolbar: {
-    height: 56,
-    backgroundColor: '#202020',
-  },
-  topBlock: {
-    flex: 1
   },
   bottomBlock: {
     flexDirection: 'row',

@@ -17,7 +17,15 @@ const loggerMiddleware = createLogger();
 
 let store = createStore(stockApp,
   {
-    watchList: [{symbol: 'FB'}, {symbol: 'AAPL'}],
+    watchList: [{
+      symbol: 'FB',
+      exchange: 'NASDAQ',
+      name: 'Facebook, Inc.'
+    }, {
+      symbol: 'AAPL',
+      exchange: 'NASDAQ',
+      name: 'Apple, Inc.'
+    }],
     stockQuotes: {
       isFetching: false,
       quotes: null

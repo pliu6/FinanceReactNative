@@ -1,3 +1,5 @@
+'use strict'
+
 import React from 'react';
 import {
   StyleSheet,
@@ -5,44 +7,34 @@ import {
   View,
 } from 'react-native';
 
-
-// 3rd party libraries
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-export default class StockCell extends React.Component {
-  _onPressDelete(symbol) {
-    console.log('_onPressDelete', symbol);
-  }
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <Icon
-          style={styles.deleteIcon}
-          name="remove-circle"
-          color="red"
-          size={22}
-          onPress={() => this._onPressDelete(this.props.stock.symbol)} />
-        <View style={styles.stock}>
-          <View style={styles.symbol}>
-            <Text style={styles.symbolText}>
-              {this.props.stock.symbol}
-            </Text>
-            <Text style={styles.marketText}>
-              {this.props.watchlistResult && this.props.watchlistResult[this.props.stock.symbol] && this.props.watchlistResult[this.props.stock.symbol].StockExchange}
-            </Text>
-          </View>
-          <View style={styles.name}>
-            <Text style={styles.nameText}>
-              {this.props.watchlistResult && this.props.watchlistResult[this.props.stock.symbol] && this.props.watchlistResult[this.props.stock.symbol].Name}
-            </Text>
-          </View>
-        </View>
-        <Icon style={styles.move} name="menu" color="white" size={22} />
+const StockCell = ({ stockSymbol, stockExchange, name, deleteStock }) => (
+  <View style={styles.container}>
+    <Icon
+      style={styles.deleteIcon}
+      name="remove-circle"
+      color="red"
+      size={22}
+      onPress={() => deleteStock(stockSymbol) } />
+    <View style={styles.stock}>
+      <View style={styles.symbol}>
+        <Text style={styles.symbolText}>
+          {stockSymbol}
+        </Text>
+        <Text style={styles.marketText}>
+          {stockExchange}
+        </Text>
       </View>
-    );
-  }
-}
+      <View style={styles.name}>
+        <Text style={styles.nameText}>
+          {name}
+        </Text>
+      </View>
+    </View>
+    <Icon style={styles.move} name="menu" color="white" size={22} />
+  </View>
+);
 
 const styles = StyleSheet.create({
   container: {
@@ -115,3 +107,5 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
 });
+
+export default StockCell;

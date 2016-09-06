@@ -2,10 +2,12 @@
 
 import { getStock, rss } from '../utils/finance';
 
-export const addStock = (symbol) => {
+export const addStock = (symbol, exchange, name) => {
   return {
     type: 'ADD_STOCK',
-    symbol: toUpperCase(symbol)
+    symbol: toUpperCase(symbol),
+    exchange: toUpperCase(exchange),
+    name: name
   };
 };
 
