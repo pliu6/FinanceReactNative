@@ -6,40 +6,32 @@ import {
   View,
 } from 'react-native';
 
-
-// 3rd party libraries
+import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 
-export default class StockCell extends React.Component {
-  _onPressAdd(symbol) {
-    console.log('_onPressAdd', symbol);
-    Actions.pop();
-  }
+import { addStock } from '../../actions';
 
-  render() {
-    return (
-      <TouchableHighlight onPress={() => this._onPressAdd(this.props.stock.symbol)} underlayColor="#202020">
-        <View style={styles.container}>
-          <View style={styles.stock}>
-            <View style={styles.symbol}>
-              <Text style={styles.symbolText}>
-                {this.props.stock.symbol}
-              </Text>
-              <Text style={styles.marketText}>
-                {this.props.stock.exchDisp}
-              </Text>
-            </View>
-            <View style={styles.name}>
-              <Text style={styles.nameText}>
-                {this.props.stock.name}
-              </Text>
-            </View>
-          </View>
+const StockCell = ({symbol, exchange, name, addStock}) => (
+  <TouchableHighlight onPress={() => addStock(symbol, exchange, name)} underlayColor="#202020">
+    <View style={styles.container}>
+      <View style={styles.stock}>
+        <View style={styles.symbol}>
+          <Text style={styles.symbolText}>
+            {symbol}
+          </Text>
+          <Text style={styles.marketText}>
+            {exchange}
+          </Text>
         </View>
-      </TouchableHighlight>
-    );
-  }
-}
+        <View style={styles.name}>
+          <Text style={styles.nameText}>
+            {name}
+          </Text>
+        </View>
+      </View>
+    </View>
+  </TouchableHighlight>
+);
 
 const styles = StyleSheet.create({
   container: {
@@ -86,3 +78,17 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
 });
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addStock: (symbol, exchange, name) => {
+      dispatch(addStock(symbol, exchange, name));
+      Actions.pop();
+    }
+  }
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(StockCell);

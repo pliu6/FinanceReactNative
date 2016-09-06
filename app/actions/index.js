@@ -5,8 +5,8 @@ import { getStock, rss } from '../utils/finance';
 export const addStock = (symbol, exchange, name) => {
   return {
     type: 'ADD_STOCK',
-    symbol: toUpperCase(symbol),
-    exchange: toUpperCase(exchange),
+    symbol: symbol.toUpperCase(),
+    exchange: exchange.toUpperCase(),
     name: name
   };
 };

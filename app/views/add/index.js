@@ -9,10 +9,8 @@ import {
   View,
 } from 'react-native';
 
-// Elements
-import StockCell from './elements/stock-cell';
+import StockCell from './StockCell';
 
-// 3rd party libraries
 import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -97,7 +95,13 @@ export default class Main extends React.Component {
         <View style={styles.suggestion}>
           <ListView
             dataSource={this.state.dataSource}
-            renderRow={(stock) => <StockCell stock={stock} watchlistCache={this.state.watchlistCache} />}
+            renderRow={(stock) =>
+              <StockCell
+                symbol={stock.symbol}
+                exchange={stock.exchDisp}
+                name={stock.name}
+              />
+            }
           />
         </View>
       </View>

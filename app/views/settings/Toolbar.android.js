@@ -18,15 +18,21 @@ const Toolbar = ({ title }) => (
       {title: 'Add', iconName: 'add', iconSize: 26, show: 'always'},
       {title: 'Done', iconName: 'check', iconSize: 26, show: 'always'},
     ]}
-    onActionSelected={(position) => this.onActionSelected(position)}
+    onActionSelected={(position) => {
+      if (position === 0) {  // index of 'Add'
+        Actions.add();
+      } else if (position === 1) {  // index of 'Done'
+        Actions.pop();
+      }
+    }}
   />
 );
 
 const styles = StyleSheet.create({
   toolbar: {
     height: 56,
-    backgroundColor: '#202020',
+    backgroundColor: '#202020'
   }
-};
+});
 
 export default Toolbar;
